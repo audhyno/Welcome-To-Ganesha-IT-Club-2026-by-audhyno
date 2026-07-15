@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ganesha IT - MPLS SMANSA</title>
+     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
+    
+    <style>
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Montserrat', sans-serif;
+            background-color: #000;
+            cursor: pointer;
+            user-select: none;
+        }
+
+
+        .stage {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .active { opacity: 1; transform: scale(1); z-index: 10; }
+        .hidden { opacity: 0; transform: scale(0.8); z-index: 1; pointer-events: none; }
+        .zoom-out { opacity: 0; transform: scale(4); z-index: 5; pointer-events: none; filter: blur(10px); }
+
+
+        .floating-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: float 5s ease-in-out infinite;
+            position: relative;
+            z-index: 2; 
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-30px); }
+            100% { transform: translateY(0px); }
+        }
+
+
+        #stage1 {
+            background-color: #000000;
+            color: #ffffff;
+        }
+        #rain-container-1 {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            overflow: hidden; z-index: 0; pointer-events: none;
+        }
+        .rain-emoji {
+            position: absolute;
+            top: -50px;
+            font-size: 2vw;
+            min-font-size: 20px;
+            animation: fall linear infinite;
+            opacity: 0.6; 
+        }
+        @keyframes fall { to { transform: translateY(110vh); } }
+
+        .logos { display: flex; gap: 40px; margin-bottom: 30px; }
+        .logos img { width: 18vw; max-width: 250px; aspect-ratio: 1/1; object-fit: contain; }
+        .title-1 { font-size: 7vw; font-weight: 900; text-align: center; line-height: 1.1; margin: 0; text-transform: uppercase; }
+
+        /* === STAGE 2: SELAMAT MENJADI BAGIAN SMANSA & KEMBANG API === */
+        #stage2 { background-color: #ffffff; color: #000000; }
+        #fireworks-container {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            overflow: hidden; z-index: 0; pointer-events: none;
+        }
+        
+        .firework-rocket {
+            position: absolute; bottom: -5vh;
+            width: 4px; height: 30px;
+            background: #fff; border-radius: 10px;
+            box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.8);
+            animation: shoot 0.7s ease-out forwards;
+        }
+        @keyframes shoot { to { bottom: calc(100vh - var(--ty)); opacity: 0; } }
+
+        .firework-particle {
+            position: absolute; font-size: 35px;
+            animation: explode-anim 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+        @keyframes explode-anim {
+            0% { transform: translate(0,0) scale(0.2); opacity: 1; }
+            100% { transform: translate(var(--vx), var(--vy)) scale(1.5); opacity: 0; }
+        }
+
+        .title-2 {
+            font-size: clamp(30px, 5vw, 100px); 
+            font-weight: 900; line-height: 1.2; text-transform: uppercase;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
+            width: 100%; max-width: 90vw; word-wrap: break-word; margin: 0 auto; text-align: center;
+        }
+        .stage2-logo {
+            width: 15vw; max-width: 200px; aspect-ratio: 1/1;
+            object-fit: contain; filter: drop-shadow(0 0 20px rgba(255,255,255,0.2)); margin-top: 40px;
+        }
+
+        #stage3 {
+            background-image: url('SMANSA.jpg');
+            background-size: cover; background-position: center;
+        }
+        #confetti-container {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            overflow: hidden; z-index: 1; pointer-events: none;
+        }
+        
+        .glass-panel {
+            background: rgba(20, 20, 20, 0.4);
+            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 20px;
+            padding: 60px 80px; text-align: center; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            max-width: 80%; position: relative; z-index: 5;
+            animation: float 5s ease-in-out infinite; /* BORDER DAN TEKS MELAYANG */
+        }
+        .title-3 {
+            font-size: 5vw; font-weight: 900; color: #ffffff; margin: 0;
+            line-height: 1.2; text-shadow: 2px 4px 10px rgba(0,0,0,0.5);
+        }
+
+        .confetti-wrap { position: absolute; bottom: 5%; animation: fly-x 2.5s linear forwards; }
+        .confetti-inner { font-size: 40px; animation: fly-y 2.5s forwards; }
+        @keyframes fly-x { to { transform: translateX(var(--tx)); } }
+        @keyframes fly-y {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; animation-timing-function: ease-out; }
+            50% { transform: translateY(var(--ty)) rotate(calc(var(--rot) / 2)); opacity: 1; animation-timing-function: ease-in; }
+            100% { transform: translateY(20vh) rotate(var(--rot)); opacity: 0; }
+        }
+
+        #stage4 {
+            background-color: #ffffff; color: #111111;
+        }
+        #rain-container-4 {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            overflow: hidden; z-index: 0; pointer-events: none;
+        }
+        .title-4 {
+            font-size: 6.5vw; font-weight: 900; text-align: center; margin: 0; text-transform: uppercase;
+        }
+        .subtitle-4 {
+            font-size: 2.5vw; font-weight: 800; margin: 15px 0 0 0; color: #333333; letter-spacing: 2px;
+        }
+        
+        .footer-text {
+            position: absolute;
+            bottom: 30px; 
+            left: 50%;
+            transform: translateX(-50%); 
+            font-size: clamp(12px, 1.2vw, 20px); 
+            font-weight: 800;
+            color: #888888;
+            letter-spacing: 1px;
+            z-index: 5;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="stage1" class="stage active">
+        <div id="rain-container-1"></div> 
+        <div class="floating-container">
+            <div class="logos">
+                <img src="logosmansa.png" alt="Logo 1">
+                <img src="LogoGaneshaITClubNewVer..png" alt="Logo 2">
+            </div>
+            <h1 class="title-1">We Are<br>GANESHA IT</h1>
+        </div>
+    </div>
+
+    <div id="stage2" class="stage hidden">
+        <div id="fireworks-container"></div>
+        <div class="floating-container">
+            <h1 class="title-2">Selamat Telah Menjadi<br>Bagian dari SMANSA</h1>
+            <img src="logosmansa.png" alt="Logo SMANSA" class="stage2-logo">
+        </div>
+    </div>
+
+    <div id="stage3" class="stage hidden">
+        <div id="confetti-container"></div>
+        <div class="glass-panel">
+            <h1 class="title-3">HOPE YOU GET YOUR<br>GLORY FOREVER</h1>
+        </div>
+    </div>
+
+    <div id="stage4" class="stage hidden">
+        <div id="rain-container-4"></div>
+        
+        <div class="floating-container">
+            <h1 class="title-4">See You, Future Maker</h1>
+            <h2 class="subtitle-4">#InTechnologyWeTrust</h2>
+        </div>
+        
+        <div class="footer-text">@ganeshaitclub</div>
+    </div>
+
+    <script>
+        let clickCount = 0;
+        let confettiInterval;
+        let fireworksInterval;
+
+        function createRain(containerId, emojiArray) {
+            const container = document.getElementById(containerId);
+            for (let i = 0; i < 40; i++) {
+                let el = document.createElement('div');
+                el.innerText = emojiArray[Math.floor(Math.random() * emojiArray.length)];
+                el.classList.add('rain-emoji');
+                el.style.left = Math.random() * 100 + 'vw';
+                el.style.animationDuration = (Math.random() * 7 + 8) + 's'; 
+                el.style.animationDelay = (Math.random() * -10) + 's'; 
+                container.appendChild(el);
+            }
+        }
+        
+        createRain('rain-container-1', ['💻', '💙', '🐘']);
+        createRain('rain-container-4', ['😎', '🤙', '💻', '💙']);
+
+        const fwEmojis = ['🎉', '🙌', '💙', '🥳', '🐘'];
+        function launchFirework() {
+            const container = document.getElementById('fireworks-container');
+            let startX = 20 + Math.random() * 60; // Posisi tembak acak di lebar layar
+            let targetY = 15 + Math.random() * 45; // Ketinggian ledakan
+            
+            let fw = document.createElement('div');
+            fw.classList.add('firework-rocket');
+            fw.style.left = startX + 'vw';
+            fw.style.setProperty('--ty', targetY + 'vh');
+            container.appendChild(fw);
+            
+            setTimeout(() => {
+                for (let i = 0; i < 15; i++) {
+                    let p = document.createElement('div');
+                    p.innerText = fwEmojis[Math.floor(Math.random() * fwEmojis.length)];
+                    p.classList.add('firework-particle');
+                    p.style.left = startX + 'vw';
+                    
+                    p.style.top = `calc(${targetY}vh - 30px)`; 
+                    
+                    let angle = Math.random() * Math.PI * 2;
+                    let radius = Math.random() * 15 + 8; 
+                    p.style.setProperty('--vx', (Math.cos(angle) * radius) + 'vw');
+                    p.style.setProperty('--vy', (Math.sin(angle) * radius) + 'vh');
+                    
+                    container.appendChild(p);
+                    setTimeout(() => p.remove(), 1200);
+                }
+                fw.remove(); 
+            }, 700);
+        }
+
+        const cfEmojis = ['💻', '💙', '🐘'];
+        function shootConfetti(container, side) {
+            let wrap = document.createElement('div');
+            wrap.classList.add('confetti-wrap');
+            let inner = document.createElement('div');
+            inner.innerText = cfEmojis[Math.floor(Math.random() * cfEmojis.length)];
+            inner.classList.add('confetti-inner');
+            wrap.appendChild(inner);
+            
+            let tx = (side === 'left' ? 1 : -1) * (Math.random() * 40 + 10) + 'vw';
+            wrap.style.setProperty('--tx', tx);
+            wrap.style.left = side === 'left' ? '-5%' : '100%'; 
+            
+            let ty = -(Math.random() * 60 + 40) + 'vh'; 
+            inner.style.setProperty('--ty', ty);
+            inner.style.setProperty('--rot', (Math.random() * 720 - 360) + 'deg'); 
+            
+            container.appendChild(wrap);
+            setTimeout(() => wrap.remove(), 2500);
+        }
+
+        document.body.addEventListener('click', () => {
+            clickCount++;
+            
+            const s1 = document.getElementById('stage1');
+            const s2 = document.getElementById('stage2');
+            const s3 = document.getElementById('stage3');
+            const s4 = document.getElementById('stage4');
+
+            if (clickCount === 1) {
+                s1.classList.remove('active'); s1.classList.add('zoom-out');
+                s2.classList.remove('hidden'); s2.classList.add('active');
+                
+                fireworksInterval = setInterval(launchFirework, 900);
+            } 
+            else if (clickCount === 2) {
+                s2.classList.remove('active'); s2.classList.add('zoom-out');
+                s3.classList.remove('hidden'); s3.classList.add('active');
+                
+                clearInterval(fireworksInterval); 
+                
+                const confettiBox = document.getElementById('confetti-container');
+                confettiInterval = setInterval(() => {
+                    shootConfetti(confettiBox, 'left');
+                    shootConfetti(confettiBox, 'right');
+                }, 80);
+            }
+            else if (clickCount === 3) {
+                s3.classList.remove('active'); s3.classList.add('zoom-out');
+                s4.classList.remove('hidden'); s4.classList.add('active');
+                
+                clearInterval(confettiInterval); 
+            }
+        });
+    </script>
+</body>
+</html>
